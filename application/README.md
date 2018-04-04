@@ -4,20 +4,20 @@
 
 ---
 #### cam.apk 
-*Version:* ***8.3.15***
+*Version:* ***8.4*** "remove old"
+*"No graphics interface: 127.0.0.1:8888"*
+```
+Enable storage access from Android 6.0
+Android /Settings/Apps/OSCam/Permissions/Storage "and enable"
+```
 #### Cam installation:
-[OSCam](http://www.streamboard.tv/oscam/wiki "OSCam") [GCAM](http://www.gcam.cf/ "GCAM") [NCam](https://github.com/javilonas/NCam "NCam")
+
 ```sh
-cp /storage/OSEbuild/installation/installation/"oscam, gcam, ncam"-"CPU/ABI".zip"
+cp /storage/OSEbuild/installation/installation/"oscam"-"CPU/ABI".zip"
 ```
 ```
 android.permission.INTERNET
 android.permission.RECEIVE_BOOT_COMPLETED
-android.permission.ACCESS_WIFI_STATE
-android.permission.CHANGE_WIFI_STATE
-android.permission.ACCESS_NETWORK_STATE
-android.permission.CHANGE_NETWORK_STATE
-android.permission.ACCESS_SUPERUSER
 android.permission.WRITE_EXTERNAL_STORAGE
 android.permission.READ_EXTERNAL_STORAGE
 ```
