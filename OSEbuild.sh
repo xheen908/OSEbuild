@@ -17,7 +17,7 @@ ANDROID_NDK_REV="r13b"
 ANDROID_NDK_ROOT=$PWD/../android-ndk
 #################################################
 # When editing, delete the toolchains android folder
-ANDROID_API_LEVEL="16"	# Android 64-bit API at least 21
+ANDROID_API_LEVEL="21"	# Android 64-bit API at least 21
 TOOLCHAIN_VERSION="4.9"
 ####
 OPENSSL_VERSION="1.0.2m"
@@ -39,8 +39,7 @@ progressbox="dialog --stdout ""$1"" --progressbox 15 70";
 ddir=`pwd`;
 cd $SOURCEDIR
 rdir=`pwd`;
-tcdir="$rdir/toolchains";
-btdir="$tcdir/backup";
+btdir="$rdir/toolchains/backup";
 date=`date`
 MACHINE_TYPE=`uname -m`
 if [ ${MACHINE_TYPE} = 'x86_64' ]; then
@@ -85,6 +84,7 @@ Toolchain="mips64el-linux-android"
 PLATFORM="mips64el-linux-android"
 ;;
 esac
+tcdir="$rdir/toolchains/$Toolchain-api-$ANDROID_API_LEVEL"
 CONF="/usr/local/etc";
 Build="android-api-$ANDROID_API_LEVEL-$ARCH"
 usb="libusb "USB_devices" off";
@@ -145,11 +145,11 @@ do
 	;;
 	libusb)
 	N_LIBUSB="-libusb";	
-	I_LIBUSB=" USE_LIBUSB=1 LIBUSB_LIB=${tcdir}/${Toolchain}/sysroot/usr/lib/libusb-1.0.a";
+	I_LIBUSB=" USE_LIBUSB=1 LIBUSB_LIB=${tcdir}/sysroot/usr/lib/libusb-1.0.a";
 	;;
 	pcsc)
 	N_PCSC="-pcsc"
-	I_PCSC=" USE_PCSC=1 PCSC_LIB="-lpcsclite" EXTRA_FLAGS="-I${tcdir}/${Toolchain}/sysroot/usr/include/PCSC" EXTRA_LDFLAGS="-L${tcdir}/${Toolchain}/sysroot/usr/lib"";
+	I_PCSC=" USE_PCSC=1 PCSC_LIB="-lpcsclite" EXTRA_FLAGS="-I${tcdir}/sysroot/usr/include/PCSC" EXTRA_LDFLAGS="-L${tcdir}/sysroot/usr/lib"";
 	;;
 	$use_)
 	N_USE="$use_";
@@ -328,9 +328,9 @@ menu_android
 ANDROID_NDK() {
 if [ "$ANDROID_NDK_AU_DOWNLOAD" = "on" ] ; then
 ANDROID_NDK_ROOT="$btdir/android-ndk-${ANDROID_NDK_REV}";
-if [ ! -e $tcdir/${Toolchain} ] ; then
+if [ ! -e $tcdir ] ; then
 if [ ! -e ${ANDROID_NDK_ROOT} ] ; then
-[ ! -e $tcdir ] && mkdir -p $tcdir;
+[ ! -e "$rdir/toolchains" ] && mkdir -p $rdir/toolchains;
 [ ! -e $btdir ] && mkdir -p $btdir;
 cd $btdir
 #wget -c --progress=bar:force "http://dl.google.com/android/ndk/android-ndk-${ANDROID_NDK_REV}-linux-${M_TYPE}.bin" 2>&1 | while read -d "%" X; do sed 's:^.*[^0-9]\([0-9]*\)$:\1:' <<< "$X"; done | dialog --title "" --clear --stdout --gauge "android-ndk-${ANDROID_NDK_REV}-linux-${M_TYPE}.bin" 6 50
@@ -354,18 +354,18 @@ if [ ! -e ${ANDROID_NDK_ROOT} ] ; then
 ANDROID_NDK
 fi
 fi
-if [ ! -e $tcdir/${Toolchain} ] ; then
-$ANDROID_NDK_ROOT/build/tools/make-standalone-toolchain.sh --arch=$ARCH --install-dir=$tcdir/${Toolchain} --platform=android-${ANDROID_API_LEVEL} --toolchain=${Toolchain}-${TOOLCHAIN_VERSION} 2>&1 | $progressbox 
+if [ ! -e $tcdir ] ; then
+$ANDROID_NDK_ROOT/build/tools/make-standalone-toolchain.sh --arch=$ARCH --install-dir=$tcdir --platform=android-${ANDROID_API_LEVEL} --toolchain=${Toolchain}-${TOOLCHAIN_VERSION} 2>&1 | $progressbox 
 fi
-if [ ! -e $tcdir/${Toolchain} ] ; then
+if [ ! -e $tcdir ] ; then
 dialog --title "ERROR!" --msgbox '                 ANDROID BUILD ERROR! \n \n ARCH='$ARCH' \n TOOLCHAIN_VERSION='$TOOLCHAIN_VERSION' \n ANDROID_API_LEVEL='$ANDROID_API_LEVEL'' 9 60
 clear && exit;
 fi
 ###############################
-export PATH=$tcdir/$Toolchain/bin:$PATH
+export PATH=$tcdir/bin:$PATH
 #export SYSROOT=$tcdir/$Toolchain/sysroot
-CROSS=$tcdir/${Toolchain}/bin/${PLATFORM}-
-PREFIX=$tcdir/${Toolchain}/sysroot/usr
+CROSS=$tcdir/bin/${PLATFORM}-
+PREFIX=$tcdir/sysroot/usr
 export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
 ###############################
 OPENSSL
