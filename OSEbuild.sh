@@ -16,8 +16,8 @@ ANDROID_NDK_REV="r13b"
 ### ANDROID_NDK_AU_DOWNLOAD = off ##
 ANDROID_NDK_ROOT=$PWD/../android-ndk
 #################################################
-# When editing, delete the toolchains android folder
-ANDROID_API_LEVEL="21"	# Android 64-bit API at least 21
+#
+ANDROID_API_LEVEL="19"
 TOOLCHAIN_VERSION="4.9"
 ####
 OPENSSL_VERSION="1.0.2m"
@@ -356,6 +356,22 @@ fi
 fi
 if [ ! -e $tcdir ] ; then
 $ANDROID_NDK_ROOT/build/tools/make-standalone-toolchain.sh --arch=$ARCH --install-dir=$tcdir --platform=android-${ANDROID_API_LEVEL} --toolchain=${Toolchain}-${TOOLCHAIN_VERSION} 2>&1 | $progressbox 
+cd $tcdir
+##OSCam TommyDS patch
+if [ ! -e stdint.h.patch ] && [ "$ANDROID_API_LEVEL" -lt "21" ] ; then
+echo '@@ -259,4 +259,10 @@' >> stdint.h.patch
+echo ' /* Keep the kernel from trying to define these types... */' >> stdint.h.patch
+echo ' #define __BIT_TYPES_DEFINED__' >> stdint.h.patch
+echo '' >> stdint.h.patch
+echo '+#if defined(__LP64__)' >> stdint.h.patch
+echo '+#  define SIZE_MAX       UINT64_MAX' >> stdint.h.patch
+echo '+#else' >> stdint.h.patch
+echo '+#  define SIZE_MAX       UINT32_MAX' >> stdint.h.patch
+echo '+#endif' >> stdint.h.patch
+echo '+' >> stdint.h.patch
+echo ' #endif /* _STDINT_H */' >> stdint.h.patch
+patch -p1 < stdint.h.patch  sysroot/usr/include/stdint.h
+fi
 fi
 if [ ! -e $tcdir ] ; then
 dialog --title "ERROR!" --msgbox '                 ANDROID BUILD ERROR! \n \n ARCH='$ARCH' \n TOOLCHAIN_VERSION='$TOOLCHAIN_VERSION' \n ANDROID_API_LEVEL='$ANDROID_API_LEVEL'' 9 60
