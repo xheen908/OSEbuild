@@ -14,16 +14,8 @@ apt-get install dialog subversion gcc make zip
 ```
 ###### Install:
 ```sh
-svn co https://github.com/su-mak/osebuild/trunk osebuild
+git https://github.com/xheen908/OSEbuild
 cd osebuild
-./OSEbuild.sh -help
-```
-or
-```sh
-mkdir osebuild
-cd osebuild
-wget https://raw.githubusercontent.com/su-mak/osebuild/master/OSEbuild.sh
-chmod 755 OSEbuild.sh
 ./OSEbuild.sh -help
 ```
 #### Building from Source
