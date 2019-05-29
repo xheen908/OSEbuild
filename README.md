@@ -10,7 +10,7 @@
 
 ###### Packages install:
 ```sh
-apt-get install dialog subversion gcc make zip
+apt-get install dialog git gcc make zip
 ```
 ###### Install:
 ```sh
