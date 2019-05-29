@@ -170,7 +170,7 @@ smargo="";
 fi
 if [ "$BUILD_LOG" = "on" ] ; then
 case "$ANDROID_API_LEVEL" in
-15)PLATFORM_VERSIONS="Android 4.0.3–4.0.4 Ice Cream Sandwich";;
+15)PLATFORM_VERSIONS="Android 4.0.3â€“4.0.4 Ice Cream Sandwich";;
 16)PLATFORM_VERSIONS="Android 4.1 Jelly Bean";;
 17)PLATFORM_VERSIONS="Android 4.2 Jelly Bean";;
 18)PLATFORM_VERSIONS="Android 4.3 Jelly Bean";;
@@ -473,7 +473,7 @@ if [ ! -e $PKG_CONFIG_PATH/libpcsclite.pc ] ; then
 PCSCL | $progressbox
 cd $btdir
 if [ ! -e $btdir/pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2 ] ; then
-wget -c --progress=bar:force "https://alioth.debian.org/frs/download.php/file/4225/pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2" 2>&1 | while read -d "%" X; do sed 's:^.*[^0-9]\([0-9]*\)$:\1:' <<< "$X"; done | dialog --title "" --clear --stdout --gauge "pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2" 6 50
+wget -c --progress=bar:force "https://alioth-archive.debian.org/releases/pcsclite/pcsclite/1.8.22/pcsc-lite-1.8.22.tar.bz2" 2>&1 | while read -d "%" X; do sed 's:^.*[^0-9]\([0-9]*\)$:\1:' <<< "$X"; done | dialog --title "" --clear --stdout --gauge "pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2" 6 50
 if [ ! -e $btdir/pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2 ] ; then
 dialog --title "ERROR!" --msgbox '                 DOWNLOAD ERROR! \n 'https://alioth.debian.org/frs/download.php/file/4203/pcsc-lite-${PCSC_LITE_VERSION}.tar.bz2'' 7 60
 clear && exit;
@@ -545,7 +545,7 @@ if [ ! -e $PREFIX/drivers/ifd-ccid.bundle/Contents/Linux/libccid.so ] ; then
 CCI | $progressbox
 cd $btdir
 if [ ! -e $btdir/ccid-${CCID_VERSION}.tar.bz2 ] ; then
-wget -c --progress=bar:force "https://alioth.debian.org/frs/download.php/file/4230/ccid-${CCID_VERSION}.tar.bz2" 2>&1 | while read -d "%" X; do sed 's:^.*[^0-9]\([0-9]*\)$:\1:' <<< "$X"; done | dialog --title "" --clear --stdout --gauge "ccid-${CCID_VERSION}.tar.bz2" 6 50
+wget -c --progress=bar:force "https://alioth-archive.debian.org/releases/pcsclite/ccid/1.4.28/ccid-1.4.28.tar.bz2" 2>&1 | while read -d "%" X; do sed 's:^.*[^0-9]\([0-9]*\)$:\1:' <<< "$X"; done | dialog --title "" --clear --stdout --gauge "ccid-${CCID_VERSION}.tar.bz2" 6 50
 if [ ! -e $btdir/ccid-${CCID_VERSION}.tar.bz2 ] ; then
 dialog --title "ERROR!" --msgbox '                 DOWNLOAD ERROR! \n 'https://alioth.debian.org/frs/download.php/file/4205/ccid-${CCID_VERSION}.tar.bz2'' 7 60
 clear && exit;
